@@ -1,28 +1,56 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <app-navigation></app-navigation>
+    {{denthub}}
+    <!-- <app-home></app-home> -->
+    <!-- <app-register></app-register> -->
+    <!-- <app-login></app-login> -->
+    <!-- <app-dentist :dentists="this.denthub.dentists"></app-dentist> -->
+    <!-- <app-appointment :appointments="this.denthub.appointments"></app-appointment> -->
+    <app-detail :dentist="this.denthub.dentists[0]"></app-detail>
+
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import denthub from './denthub.json';
+
+// import AppHome from './components/Home.vue';
+import AppNavigation from './components/shared/Navigation.vue';
+//import AppRegister from './components/shared/Register.vue';
+//import AppLogin from './components/shared/Login.vue';
+//import AppDentist from './components/core/Dentist.vue';
+//import AppAppointment from './components/core/Appointment.vue';
+import AppDetail from './components/core/Detail.vue';
+
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    // AppHome,
+    AppNavigation,
+    //AppRegister,
+    //AppLogin,
+    //AppDentist,
+    //AppAppointment,
+    AppDetail
+  },
+  data() {
+    return {
+      denthub
+    };
   }
 }
 </script>
 
 <style>
-#app {
+
+/* #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-}
+} */
 </style>
