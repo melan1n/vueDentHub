@@ -24,6 +24,10 @@
 </template>
 
 <script>
+
+  import { validationMixin } from 'vuelidate';
+  import { required, minlength, email, sameAs } from 'vuelidate/lib/validators';
+
   export default {
       name: 'app-login'
   }
