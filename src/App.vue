@@ -16,8 +16,8 @@
 import denthub from './denthub.json';
 import AppHome from './components/Home.vue';
 import AppNavigation from './components/shared/Navigation.vue';
-// import AppRegister from './components/shared/Register.vue';
-// import AppLogin from './components/shared/Login.vue';
+//import AppRegister from './components/authentication/Register.vue';
+//import AppLogin from './components/authentication/Login.vue';
 // import AppDentist from './components/core/Dentist.vue';
 // import AppAppointment from './components/core/Appointment.vue';
 // import AppDetail from './components/core/Detail.vue';
