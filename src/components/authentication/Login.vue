@@ -15,7 +15,7 @@
     <input id="password" name="password" type="password" class="form-control" placeholder="Password" v-model="password" @blur="$v.password.$touch">
       <template>
         <div class="error" v-if="!$v.password.required">Please enter a password</div>
-   <label class="error"></label>
+   <label class="error">{{error}}</label>
    <label class="success"></label>
    </template>
    

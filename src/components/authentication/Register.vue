@@ -15,7 +15,7 @@
         <template>
         <div class="error" v-if="!$v.password.required">Password is required</div>
             <div class="error" v-else-if="!$v.password.minLength">Password should have at least 6 characters</div>
-   <label class="error"></label>
+   <label class="error">{{error}}</label>
    <label class="success"></label>
    </template>
   <div>
@@ -79,6 +79,7 @@
           this.$router.push('/');
         })
         .catch(err => {
+          this.error = err;
           console.error(err);
         });
       }
