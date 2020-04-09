@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <app-navigation></app-navigation>
-    {{denthub}}
-    <app-home></app-home>
+    <!-- {{denthub}} -->
+    <!-- <app-home></app-home> -->
     <!-- <app-register></app-register> -->
     <!-- <app-login></app-login> -->
     <!-- <app-dentist :dentists="this.denthub.dentists"></app-dentist> -->
@@ -14,7 +14,7 @@
 
 <script>
 import denthub from './denthub.json';
-import AppHome from './components/Home.vue';
+//import AppHome from './components/Home.vue';
 import AppNavigation from './components/shared/Navigation.vue';
 //import AppRegister from './components/authentication/Register.vue';
 //import AppLogin from './components/authentication/Login.vue';
@@ -26,7 +26,7 @@ import AppNavigation from './components/shared/Navigation.vue';
 export default {
   name: 'App',
   components: {
-     AppHome,
+    // AppHome,
     AppNavigation,
     //AppRegister,
     // AppLogin,

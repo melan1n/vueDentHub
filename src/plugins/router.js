@@ -8,14 +8,14 @@ import AppAppointment from '@/components/core/Appointment.vue';
 import AppDetail from '@/components/core/Detail.vue';
 
 const routes = [
-    { path: '', component: AppHome },
-    { path: '/home', component: AppHome },
-    { path: '/register', component: AppRegister },
-    { path: '/login', component: AppLogin },
-    { path: '/logout', component: AppDentist },
-    { path: '/dentist', component: AppDentist },
-    { path: '/appointment', component: AppAppointment },
-    { path: '/detail/:id', component: AppDetail }
+    { path: '', name: '', component: AppHome },
+    { path: '/home', name: 'Home', component: AppHome },
+    { path: '/register', name: 'Register', component: AppRegister },
+    { path: '/login', name: 'Login', component: AppLogin },
+    { path: '/logout', name: 'Logout', component: AppDentist },
+    { path: '/dentist', name: 'Dentist', component: AppDentist },
+    { path: '/appointment', name: 'Appointment', component: AppAppointment },
+    { path: '/detail/:id', name: 'Detail', component: AppDetail }
 ]
 
 Vue.use(VueRouter);

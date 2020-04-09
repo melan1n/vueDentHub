@@ -3,7 +3,7 @@
   <div class="row h-100 justify-content-center align-items-center">
       <div class="col-10 col-md-8 col-lg-6">
        
-  <form @submit.prevent="submitHandler">
+  <form @submit.prevent="loginHandler">
       <label for="emailfield">Email</label>
       <input v-model="emailfield" name="emailfield" type="text" class="form-control" placeholder="Enter email" @blur="$v.emailfield.$touch">
       <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
@@ -29,9 +29,11 @@
 </template>
 
 <script>
-
+ 
   import { validationMixin } from 'vuelidate';
   import { required, email } from 'vuelidate/lib/validators';
+  import firebase from 'firebase';
+  //import loginHandlerMixin from './mixins/login.js'
 
   export default {
       name: 'app-login',
@@ -39,16 +41,33 @@
       data() {
           return {
               emailfield: '',
-              password: ''
+              password: '',
+              error: null
           }
       },
       validations: {
-          emailfield: {
-        required,
-        email
+        emailfield: {
+          required,
+          email
         },
-      password: {
-        required
+        password: {
+          required
+        }
+      },
+      methods: {
+        loginHandler() {
+          let self = this; 
+          firebase.auth()
+            .signInWithEmailAndPassword(self.emailfield, self.password)
+            .then(res => {
+              res.user.updateProfile({
+              displayName: this.emailfield
+            });
+              this.$router.replace({ name: "Dentist"})
+            })
+            .catch(err => {
+              this.error = err.message;
+            })
         }
       }
   }

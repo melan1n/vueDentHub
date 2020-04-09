@@ -2,7 +2,7 @@
 <div class="container h-100">
   <div class="row h-100 justify-content-center align-items-center">
       <div class="col-10 col-md-8 col-lg-6">
-  <form @submit.prevent="submitHandler">
+  <form @submit.prevent="registerHandler">
       <label for="emailfield">Email</label>
       <input  v-model="emailfield" name="emailfield" type="text" class="form-control" placeholder="Enter email" @blur="$v.emailfield.$touch">
           <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
@@ -28,30 +28,63 @@
 </template>
 
 <script>
-
+  //import authAxios from '@/axios-auth';
+  import firebase from 'firebase';
   import { validationMixin } from 'vuelidate';
   import { required, email, minLength } from 'vuelidate/lib/validators';
+  //import loginHandlerMixin from './mixins/login.js';
+  //import login from './Login.vue';
+
   export default {
       name: 'app-register',
       mixins: [validationMixin],
       data() {
           return {
               emailfield: '',
-              password: ''
+              password: '',
+              error: null
           }
       },
       validations: {
-          emailfield: {
-        required,
-        email
+        emailfield: {
+          required,
+          email
         },
-      password: {
-        required,
-        minLength: minLength(6)
+        password: {
+          required,
+          minLength: minLength(6)
         }
+      },
+      methods: {
+        registerHandler() {
+        //   const payload = {
+        // email: this.emailfield,
+        // password: this.password,
+        // returnSecureToken: true
+        // };
+
+        firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.emailfield, this.password)
+        .then(res => {
+          res.user
+            .updateProfile({
+              displayName: this.emailfield
+            });
+          //TODO LOG IN
+            this.$router.push('/dentist');
+          // const { idToken, localId } = res.data;
+          // localStorage.setItem('token', idToken);
+          // localStorage.setItem('userId', localId);
+          this.$router.push('/');
+        })
+        .catch(err => {
+          console.error(err);
+        });
       }
      
       }
+  };
 </script>
 
 <style scoped>
