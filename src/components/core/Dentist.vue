@@ -1,6 +1,6 @@
 <template>
 <div v-if="dentists" class="container body-content">
-
+<!-- <div>{{db}} -->
 <div class="media" v-for="(dentist, id) in dentists" :key="id">
   <div class="media-left">
       <a href="#">
@@ -21,14 +21,31 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import {firestorePlugin} from 'vuefire';
+import { firestore } from '../../plugins/dbfirebase.js'
+
+Vue.use(firestorePlugin);
+
   export default {
-      name: 'app-dentist',
-      props: {
-          dentists: {
-              type: Array
-          }
-      }
-  }
+    name: 'app-dentist',
+    created() {
+        this.$bind('dentists', firestore.collection('dentists'))
+        .then(dentists => { this.dentists === dentists})
+    },
+    data() {
+        return {
+            dentists: [],
+            currentDentist: null
+        }
+    },
+    firestore: {
+        dentists: firestore.collection("dentists"),
+        //currentDentist: db.collection('dentists').doc("1")
+    },
+   }
+     
+
 </script>
 
 <style scoped>

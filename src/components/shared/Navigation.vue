@@ -35,6 +35,7 @@
 
 <script>
 //import store from '../../store';
+//import {app} from '@/main.js';
 import { mapGetters } from "vuex";
 import firebase from 'firebase';
 
@@ -53,7 +54,7 @@ import firebase from 'firebase';
         .signOut()
         .then(() => {
           this.$router.replace({
-            name: "home"
+            path: "/"
           });
         })
       }

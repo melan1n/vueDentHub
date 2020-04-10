@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import denthub from './denthub.json';
+//import denthub from './denthub.json';
 //import AppHome from './components/Home.vue';
 import AppNavigation from './components/shared/Navigation.vue';
 //import AppRegister from './components/authentication/Register.vue';
@@ -26,7 +26,7 @@ import AppNavigation from './components/shared/Navigation.vue';
 export default {
   name: 'App',
   components: {
-    // AppHome,
+    //AppHome,
     AppNavigation,
     //AppRegister,
     // AppLogin,
@@ -36,7 +36,7 @@ export default {
   },
   data() {
     return {
-      denthub
+      //denthub
     };
   }
 }
