@@ -13,6 +13,7 @@
 
 <script>
 import AppCreate from './Create.vue';
+import { firestore } from '../../plugins/dbfirebase';
 
   export default {
       name: 'app-detail',
@@ -20,10 +21,31 @@ import AppCreate from './Create.vue';
           AppCreate
       },
       props: {
+        'id': Number, 
+        'name': String, 
+        'clinic': String, 
+        'image': String
+      },
+      data() {
+        return { 
           dentist: {
-              type: Object
-          }
+          id: this.$route.params.id,
+          name: this.$route.params.name,
+          clinic: this.$route.params.clinic,
+          image: this.$route.params.image
+        }
+        }
+      },
+      created: function() {
+        this.$bind("data", firestore
+        .collection('dentists')
+        .doc(this.$route.params.id)
+        //.doc(this.$attrs.id)
+        //.doc(this.$route.params.id)
+        //.doc(this.$attrs.id)
+        );
       }
+      
   }
 </script>
 
