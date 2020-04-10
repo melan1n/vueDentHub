@@ -7,22 +7,22 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <ul class="nav navbar-nav">
-        <li>
+        <li v-if="user.loggedIn">
         <router-link class="nav-item nav-link" to="dentist">Book Appointment</router-link>
         </li>
-        <li>
+        <li v-if="user.loggedIn">
         <router-link class="nav-item nav-link" to="appointment">My Appointments</router-link>
         </li>
-        <li>
-        <router-link class="nav-item nav-link" to="">Welcome, userService.currentUserEmail!</router-link>
+        <li v-if="user.loggedIn">
+        <router-link class="nav-item nav-link" to="">Welcome, {{user.data.email}}!</router-link>
         </li>
-        <li>
-        <router-link class="nav-item nav-link" to="" @click="logout()">Logout</router-link>
+        <li v-if="user.loggedIn">
+        <a class="nav-item nav-link" @click.prevent="logout">Logout</a>
         </li>
-        <li>
+        <li v-if="!user.loggedIn">
         <router-link class="nav-item nav-link" to="login">Login</router-link>
         </li>
-        <li>
+        <li v-if="!user.loggedIn">
         <router-link class="nav-item nav-link" to="register">Register</router-link>
         </li>
       </ul>
@@ -34,13 +34,30 @@
 </template>
 
 <script>
+//import store from '../../store';
+import { mapGetters } from "vuex";
+import firebase from 'firebase';
+
   export default {
       name: 'app-navigation',
-      methods: {
+      computed: {
+      // map `this.user` to `this.$store.getters.user`
+      ...mapGetters({
+      user: "user"
+      })
+      },
+      methods:{
         logout() {
-          console.log('LOGOUT');
-        }
+        firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.replace({
+            name: "home"
+          });
+        })
       }
+  }
   }
 </script>
 

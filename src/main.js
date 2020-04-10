@@ -4,6 +4,7 @@ import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import router from './plugins/router.js'; //path to router
 import * as firebase from 'firebase'
+import store from './store';
 
 Vue.config.productionTip = false
 
@@ -19,7 +20,12 @@ const configOptions = {
 
 firebase.initializeApp(configOptions);
 
+firebase.auth().onAuthStateChanged(user => {
+  store.dispatch("fetchUser", user);
+});
+
 new Vue({
   render: h => h(App),
-  router
+  router,
+  store,
 }).$mount('#app')
