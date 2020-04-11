@@ -14,7 +14,7 @@
                     {{appointment.dentist}} 
                 </td>
                 <td>
-                    {{appointment.time}}
+                    {{appointment.time | dateToString}}
                 </td>
                 
             </tr>
@@ -30,13 +30,48 @@
 </template>
 
 <script>
+import Vue from 'vue';
+import {firestorePlugin} from 'vuefire';
+import { firestore } from '../../plugins/dbfirebase.js'
+
+Vue.use(firestorePlugin);
+
   export default {
       name: 'app-appointment',
-      props: {
-            appointments: {
-              type: Array
-          }
-      }
+    //   props: {
+    //         appointments: {
+    //           type: Array
+    //       }
+    //   },
+      created() {
+        this.$bind('appointments', firestore.collection('appointments'))
+        .then(appointments => { this.appointments === appointments});
+    },
+    data() {
+        return {
+            appointments: [],
+            currentDentist: { 
+                id: Number,
+                name: String,
+                clinic: String,
+                image: String
+            }
+        }
+    },
+    firestore: {
+        appointments: firestore.collection("appointments"),
+        // currentDentist: firestore.collection('appointments')
+        //  .doc(currentDentist.id.toString())
+    },
+    filters: {
+        dateToString(value) {
+            var t = new Date(1970, 0, 1); // Epoch
+            t.setSeconds(value.seconds);
+            return t.toString().substring(0, 25);
+        // return new Date(value.seconds).toISOString();
+  }
+}
+
   }
 </script>
 

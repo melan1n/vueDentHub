@@ -4,7 +4,7 @@
   <div class="container">
     <div class="row">
         <div class='col-sm-10'>
-            <div class="form-group">
+            <div class="form-group" @submit.prevent="createAppointment">
               <label>Please select time:</label>
               <input v-model="time" name="time" type="text" class="form-control" placeholder="mm-dd-yyyy hh:mm:ss" @blur="$v.time.$touch">
               <small id="emailHelp" class="form-text text-muted">Please enter date and time in format "mm-dd-yyyy hh:mm:ss"</small>
@@ -29,14 +29,33 @@
 
   import { validationMixin } from 'vuelidate';
   import { required } from 'vuelidate/lib/validators';
-  
+  import { firestore } from '../../plugins/dbfirebase.js';
+  import { mapGetters } from "vuex";
+//import { app } from 'firebase';
+
   export default {
       name: 'app-create',
       mixins: [validationMixin],
       data() {
           return {
-              time: ''
+              time: '',
+              dentistName: this.dentist.name 
           }
+      },
+      props: [ 'dentist'],
+      // props: {
+      //     dentist: {
+      //         name: this.dentist.name,
+      //         id: this.dentist.id,
+      //         clinic: this.dentist.clinic,
+      //         image: this.dentist.image
+      //     }
+      //  },
+      computed: {
+      // map `this.user` to `this.$store.getters.user`
+      ...mapGetters({
+      user: "user"
+      })
       },
       validations: {
           time: {
@@ -49,12 +68,28 @@
               }
           }
       },
-      props: {
-    //       dentist: {
-    //           type: Object
-    //       }
-       }
-       }
+      methods: {
+        createAppointment() {
+        //   let appointment = null;
+        //   appointment.dentist = this.dentistName;
+        // appointment.email = this.user.email;
+        // appointment.time = new Date(this.time)
+        // return await firestore.collection('appointments').doc(appointment.id).set(appointment);
+
+          firestore.collection('appointments')
+          .add({ dentist: this.dentistName, email: this.user.email, time: Date.parse(this.time)})
+           .then(res => {
+              res.user.updateProfile({
+              displayName: this.emailfield
+            });
+              this.$router.replace({ name: "Appointment"})
+            })
+            .catch(err => {
+              this.error = err.message;
+            });
+        }
+      }
+      }     
     
   
 </script>
