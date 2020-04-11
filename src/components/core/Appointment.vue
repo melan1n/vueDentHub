@@ -33,18 +33,21 @@
 import Vue from 'vue';
 import {firestorePlugin} from 'vuefire';
 import { firestore } from '../../plugins/dbfirebase.js'
+import { mapGetters } from "vuex";
 
 Vue.use(firestorePlugin);
 
   export default {
       name: 'app-appointment',
-    //   props: {
-    //         appointments: {
-    //           type: Array
-    //       }
-    //   },
+      computed: {
+      // map `this.user` to `this.$store.getters.user`
+      ...mapGetters({
+      user: "user"
+      })
+      },
       created() {
-        this.$bind('appointments', firestore.collection('appointments'))
+        this.$bind('appointments', firestore.collection('appointments')
+        .where('email', '==', this.user.data.email))
         .then(appointments => { this.appointments === appointments});
     },
     data() {

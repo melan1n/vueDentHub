@@ -87,6 +87,7 @@
             .catch(err => {
               this.error = err.message;
             });
+            this.$router.push({ name: "Appointment"})
         }
       }
       }     
