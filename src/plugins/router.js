@@ -13,7 +13,7 @@ const routes = [
     { path: '/register', name: 'Register', component: AppRegister },
     { path: '/login', name: 'Login', component: AppLogin },
     { path: '/logout', name: 'Logout', component: AppDentist },
-    { path: '/dentist', name: 'Dentist', component: AppDentist },
+    { path: '/dentist', name: 'Dentist', component: AppDentist  },
     { path: '/appointment', name: 'Appointment', component: AppAppointment },
     { path: '/detail/:id', name: 'Detail', component: AppDetail }
 ]
@@ -24,3 +24,4 @@ export default new VueRouter({
   mode: 'history',
   routes
 })
+

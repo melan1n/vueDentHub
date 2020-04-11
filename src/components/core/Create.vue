@@ -1,10 +1,10 @@
 <template>
     
-<form>
+<form  @submit="createAppointment">
   <div class="container">
     <div class="row">
         <div class='col-sm-10'>
-            <div class="form-group" @submit.prevent="createAppointment">
+            <div class="form-group">
               <label>Please select time:</label>
               <input v-model="time" name="time" type="text" class="form-control" placeholder="mm-dd-yyyy hh:mm:ss" @blur="$v.time.$touch">
               <small id="emailHelp" class="form-text text-muted">Please enter date and time in format "mm-dd-yyyy hh:mm:ss"</small>
@@ -13,7 +13,7 @@
                   <div class="error" v-else-if="!$v.time.validateTimeFormat">Please enter valid date and time!</div>
                   </template>
               <!-- <p class="error">Please enter valid date and time!</p> -->
-              </div>
+            </div>
             </div>
           </div>
         
@@ -39,18 +39,12 @@
       data() {
           return {
               time: '',
-              dentistName: this.dentist.name 
+              dentistName: this.dentist.name,
+              db: firestore.collection('appointments'),
+              appointment: {}
           }
       },
       props: [ 'dentist'],
-      // props: {
-      //     dentist: {
-      //         name: this.dentist.name,
-      //         id: this.dentist.id,
-      //         clinic: this.dentist.clinic,
-      //         image: this.dentist.image
-      //     }
-      //  },
       computed: {
       // map `this.user` to `this.$store.getters.user`
       ...mapGetters({
@@ -69,25 +63,19 @@
           }
       },
       methods: {
-        createAppointment() {
-        //   let appointment = null;
-        //   appointment.dentist = this.dentistName;
-        // appointment.email = this.user.email;
-        // appointment.time = new Date(this.time)
-        // return await firestore.collection('appointments').doc(appointment.id).set(appointment);
-
-          firestore.collection('appointments')
-          .add({ dentist: this.dentistName, email: this.user.email, time: Date.parse(this.time)})
-           .then(res => {
-              res.user.updateProfile({
-              displayName: this.emailfield
-            });
-              this.$router.replace({ name: "Appointment"})
-            })
-            .catch(err => {
-              this.error = err.message;
-            });
-            this.$router.push({ name: "Appointment"})
+        createAppointment(evt) {
+          evt.preventDefault()
+          this.db
+          .add({
+            dentist: this.dentistName,
+            email: this.user.data.email,
+            time: new Date(this.time)})
+          .then(() => {
+            this.$router.push({ name: 'Appointment' })
+      })
+      .catch((error) => {
+        alert("Error adding document: ", error);
+      });
         }
       }
       }     
